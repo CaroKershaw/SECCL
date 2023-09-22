@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Services
 {
@@ -14,16 +15,23 @@ namespace API.Services
         private readonly HttpClient _httpClient;
         private readonly string _apiBaseUrl;
 
-        public AuthenticationService(HttpClient httpClient)
+        public AuthenticationService(HttpClient httpClient, IConfiguration configuration)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _apiBaseUrl = "https://pfolio-api-staging.seccl.tech"; //API base URL
+            _apiBaseUrl = configuration["ApiBaseUrl"]; // Read API base URL from appsettings.json
         }
 
-        public async Task<AuthenticationResponseModel> AuthenticateAsync(AuthenticationRequestModel request)
+        public async Task<AuthenticationResponseModel> AuthenticateAsync(string firmId, string userId, string password)
         {
             try
             {
+                var request = new AuthenticationRequestModel
+                {
+                    FirmId = firmId,
+                    Id = userId,
+                    Password = password
+                };
+
                 // Serialize the request model to JSON
                 var requestJson = JsonSerializer.Serialize(request);
 
