@@ -16,6 +16,9 @@ namespace API.Data
 
         public DbSet<NodeName> NodeNames { get; set; }
 
+        public DbSet<AuthToken> AuthTokens { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure the relationship between Portfolio and PortfolioNode
