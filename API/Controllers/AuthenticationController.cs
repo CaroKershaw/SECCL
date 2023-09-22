@@ -8,6 +8,7 @@ using API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using API.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
 {
@@ -39,10 +40,10 @@ namespace API.Controllers
             try
             {
                 // Call the authentication service to validate the credentials
-                var authenticationResponse = await _authenticationService.AuthenticateAsync(request);
+                var authenticationResponse = await _authenticationService.AuthenticateAsync(request.FirmId, request.Id, request.Password);
 
                 // Assuming a fixed token expiration duration of 99 days
-                var tokenExpiry = DateTime.UtcNow.AddDays(99); //TODO: Change this to a more realistic token expiry period
+                var tokenExpiry = DateTime.UtcNow.AddDays(99); // TODO: Change this to a more realistic token expiry period
 
                 // Store the access token in the database
                 var authToken = new AuthToken
