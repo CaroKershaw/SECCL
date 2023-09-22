@@ -1,10 +1,13 @@
 using API.Data;
+using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using API.Configuration;
+using System.Net.Http;
 
 namespace API
 {
@@ -25,6 +28,14 @@ namespace API
             {
                 options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            // Register AppSettings from appsettings.json
+            var appSettings = new AppSettings();
+            Configuration.GetSection("AppSettings").Bind(appSettings);
+            services.AddSingleton(appSettings);
+
+            // Register HttpClient for the AuthenticationService
+            services.AddHttpClient<AuthenticationService>();
 
             // Add your services and other configurations here
             services.AddScoped<ITokenStorageService, TokenStorageService>();
