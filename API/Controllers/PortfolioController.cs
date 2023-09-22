@@ -64,7 +64,10 @@ namespace API.Controllers
                 {
                     // Deserialize the JSON response to the desired model
                     var responseJson = await response.Content.ReadAsStringAsync();
-                    var portfolios = JsonSerializer.Deserialize<List<PortfolioModel>>(responseJson);
+                    var portfolios = JsonSerializer.Deserialize<List<PortfolioModel>>(responseJson, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true // Deserialize properties with different cases
+                    });
 
                     // Return the portfolios as JSON
                     return Ok(portfolios);
