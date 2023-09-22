@@ -7,7 +7,7 @@ using System.Security.Authentication;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using API.Data; // Import the necessary namespace for logging
+using API.Data;
 
 namespace API.Controllers
 {
@@ -16,9 +16,9 @@ namespace API.Controllers
     public class AuthenticationController : ControllerBase
     {
         private readonly IAuthenticationService _authenticationService;
-        private readonly DataContext _context; // Add DataContext for database access
-        private readonly ITokenStorageService _tokenStorageService; // Add token storage service
-        private readonly ILogger<AuthenticationController> _logger; // Add a logger
+        private readonly DataContext _context;
+        private readonly ITokenStorageService _tokenStorageService;
+        private readonly ILogger<AuthenticationController> _logger;
 
         public AuthenticationController(
             IAuthenticationService authenticationService,
@@ -41,14 +41,21 @@ namespace API.Controllers
                 // Call the authentication service to validate the credentials
                 var authenticationResponse = await _authenticationService.AuthenticateAsync(request);
 
+                // Assuming a fixed token expiration duration of 99 days
+                var tokenExpiry = DateTime.UtcNow.AddDays(99); //TODO: Change this to a more realistic token expiry period
+
                 // Store the access token in the database
                 var authToken = new AuthToken
                 {
+                    UserId = authenticationResponse.UserName, // Use UserName as UserId
                     Token = authenticationResponse.Token,
-                    Expiry = DateTime.UtcNow.AddHours(1) // Set token expiration (adjust as needed)
+                    Expiry = tokenExpiry // Set token expiration
                 };
 
+                // Add the authToken to the database context
                 _context.AuthTokens.Add(authToken);
+
+                // Save changes to the database
                 await _context.SaveChangesAsync();
 
                 // Store the access token using the correct method signature
