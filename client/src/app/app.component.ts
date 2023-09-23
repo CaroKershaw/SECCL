@@ -13,11 +13,10 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get('http://localhost:5001/portfolio').subscribe({
+    this.http.get('http://localhost:5000/api/portfolio').subscribe({
       next: (response) => this.portfolio = response,
       error: (err) => console.log(err),
       complete: () => console.log('Request has completed')
     });
-
   }
 }
