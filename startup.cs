@@ -60,6 +60,17 @@ namespace API
                 // app.UseHsts();
             }
 
+            // Enable CORS with a policy that allows requests from http://localhost:4200
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            });
+
+            // Configure the path base here
+            app.UsePathBase("/seccl");
+
             // Configure other middleware and routing here
             // ...
 
