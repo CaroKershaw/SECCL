@@ -1,11 +1,11 @@
-using API.Data;
-using API.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using API.Data;
+using API.Services;
 using API.Configuration;
 using System.Net.Http;
 
@@ -37,11 +37,10 @@ namespace API
             // Register HttpClient for the AuthenticationService
             services.AddHttpClient<AuthenticationService>();
 
-            // Add your services and other configurations here
+            // Add services and other configurations here
             services.AddScoped<ITokenStorageService, TokenStorageService>();
-
-            // Add other services as needed
-            // ...
+            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IPortfolioService, PortfolioService>();
 
             services.AddControllers();
         }

@@ -8,7 +8,7 @@ using API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using API.Data;
-using Microsoft.Extensions.Configuration;
+
 
 namespace API.Controllers
 {
@@ -69,12 +69,6 @@ namespace API.Controllers
             {
                 // Handle authentication-related exceptions
                 return Unauthorized(new { Error = ex.Message });
-            }
-            catch (DbUpdateException ex)
-            {
-                // Handle database update errors
-                _logger.LogError($"Database update error: {ex.Message}");
-                return StatusCode(500, new { Error = "An error occurred while storing the access token." });
             }
             catch (Exception ex)
             {
