@@ -12,7 +12,7 @@ Open the appsettings.json file.
 Replace the placeholders for the API credentials with the provided credentials:
 
 "SecclApi": {
-  "BaseUrl": "http://pfolio-api-staging.seccl.tech",
+  "BaseUrl": "https://pfolio-api-staging.seccl.tech",
   "FirmId": "P1IMX",
   "UserId": "nelahi6642@4tmail.net",
   "Password": "DemoBDM1"
