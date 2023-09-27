@@ -39,7 +39,7 @@ namespace API
 
             // Add services and other configurations here
             services.AddScoped<ITokenStorageService, TokenStorageService>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IPortfolioService, PortfolioService>();
 
             services.AddControllers();
