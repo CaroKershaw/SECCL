@@ -42,25 +42,25 @@ namespace API.Controllers
                 // Call the authentication service to validate the credentials
                 var authenticationResponse = await _authenticationService.AuthenticateAsync(request.FirmId, request.Id, request.Password);
 
-                // Assuming a fixed token expiration duration of 99 days
-                var tokenExpiry = DateTime.UtcNow.AddDays(99); // TODO: Change this to a more realistic token expiry period
+                // // Assuming a fixed token expiration duration of 99 days
+                // var tokenExpiry = DateTime.UtcNow.AddDays(99); // TODO: Change this to a more realistic token expiry period
 
-                // Store the access token in the database
-                var authToken = new AuthToken
-                {
-                    UserId = authenticationResponse.UserName, // Use UserName as UserId
-                    Token = authenticationResponse.Token,
-                    Expiry = tokenExpiry // Set token expiration
-                };
+                // // Store the access token in the database
+                // var authToken = new AuthToken
+                // {
+                //     UserId = authenticationResponse.UserName, // Use UserName as UserId
+                //     Token = authenticationResponse.Token,
+                //     Expiry = tokenExpiry // Set token expiration
+                // };
 
-                // Add the authToken to the database context
-                _context.AuthTokens.Add(authToken);
+                // // Add the authToken to the database context
+                // _context.AuthTokens.Add(authToken);
 
-                // Save changes to the database
-                await _context.SaveChangesAsync();
+                // // Save changes to the database
+                // await _context.SaveChangesAsync();
 
-                // Store the access token using the correct method signature
-                _tokenStorageService.StoreToken(authenticationResponse.UserName, authenticationResponse.Token);
+                // // Store the access token using the correct method signature
+                // _tokenStorageService.StoreToken(authenticationResponse.UserName, authenticationResponse.Token);
 
                 // Return the authentication response as JSON
                 return Ok(authenticationResponse);
